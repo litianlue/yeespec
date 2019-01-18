@@ -4168,8 +4168,6 @@ containing a value of this type.
         public static final int Widget_AppCompat_TextView_SpinnerItem=0x7f0a012b;
         public static final int Widget_AppCompat_Toolbar=0x7f0a012c;
         public static final int Widget_AppCompat_Toolbar_Button_Navigation=0x7f0a012d;
-        /**  模糊 
-         */
         public static final int dialog_loaing=0x7f0a012e;
     }
     public static final class xml {

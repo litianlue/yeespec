@@ -1507,6 +1507,7 @@ public final class CameraServerHandler extends Handler {
                     objectiveIsSwith = false;
                 }
             }
+           // Log.w(TAG, "ConstantUtil.LONZA=" + ConstantUtil.LONZA);
             if (ConstantUtil.LONZA) {
 
                 updateReceivedDataSmart(data);
@@ -2121,7 +2122,7 @@ public final class CameraServerHandler extends Handler {
     public static int THRESHOLD_VALUE = 320;      //对焦电机速度选择的判断分界值 ;
 
     public void mHandleGammaUart(int focus, boolean isForWard, int currentstep, String speedSelect) {
-
+        String speed = "0400";
         String selection = "02";    //02电机
         String direction;    //电机运作方向; 默认正在0x55 , 反转0xAA
         if (isForWard) {
@@ -2171,14 +2172,16 @@ public final class CameraServerHandler extends Handler {
         } else {
             // BaseApplication.getInstance().setGamma(gamma);
             CameraServerHandler.cgamma = gamma;
-            // Log.e("SettingActivity", "BaseApplication.getInstance().getGamma()1=" + BaseApplication.getInstance().getGamma());
+            if(currentstep==-100){
+                speed = "0100";
+            }
         }
 
         //Log.e("SettingActivity", "BaseApplication.getInstance().getGamma()1=" + BaseApplication.getInstance().getGamma());
         step = integerTo2ByteHexString(stepNum & 0xffff);
 
         //        mGamma = focus_abs;
-        String commandString = "4A504C59" + selection + direction + step + stepModle + speedSelect + "0000" + "0D0A";
+        String commandString = "4A504C59" + selection + direction + step + stepModle + speedSelect +speed + "0D0A";
         sendControlCommand(commandString);
         if (isOpentOjectiveSwith) {
 
@@ -2199,7 +2202,7 @@ public final class CameraServerHandler extends Handler {
     public void releadFocus() {
         String commandString;
         if (ConstantUtil.LONZA)
-            commandString = "4A504C59" + "02" + "55" + "09" + "005509040000";
+            commandString = "4A504C59" + "02" + "55" + "09" + "005509010000";
         else
             commandString = "4A504C59" + "06" + "02" + "02" + "000000000000";
         // BaseApplication.getInstance().setGamma(0);
@@ -2213,7 +2216,6 @@ public final class CameraServerHandler extends Handler {
         Log.w(TAG, "sendStringToUart");
         str += "0D0A";
         if (str.equals("4A504C5912000000000000000D0A")) {
-
             isdebug = false;
             isReturnTime = true;
             //3秒后释放串口锁定标记
@@ -2231,7 +2233,6 @@ public final class CameraServerHandler extends Handler {
                 objectiveIsSwith = true;
             }
         }
-
         sendControlCommand(str);
     }
 
@@ -2474,7 +2475,7 @@ public final class CameraServerHandler extends Handler {
     private int timercount = 0;
 
     public String dataFramesToValue(byte[] array) {
-
+        //Log.w(TAG, "array.dataFramesToValue=" + array.toString());
         String dataFramesString =
                 "\nLED1(W) = " + LED1_ON_FLAG +
                         "\nLED2(B) = " + LED2_ON_FLAG +
@@ -2491,11 +2492,13 @@ public final class CameraServerHandler extends Handler {
                         "\nLensMotorStatus = " + mLensMotorStatus +
                         "\nFocusMotorStatus = " + mFocusMotorStatus +
                         "\nMaxFocus = " + mMaxFocusMotorStatus;
-
-        Log.w(TAG, "array.length=" + array.length);
+//        Log.w(TAG, "dataFramesString=" + dataFramesString); //mDataFramesFinishFlag & mCheckSumFlag
+//        Log.w(TAG, "mDataFramesFinishFlag=" + mDataFramesFinishFlag);
+//        Log.w(TAG, "mCheckSumFlag=" + mCheckSumFlag);
+ //       Log.w(TAG, "array.length=" + array.length);
 
         for (int i = 0; i < array.length; i++) {
-            Log.w(TAG, "array.length[" + i + "]=" + array[i]);
+         //   Log.w(TAG, "array.length[" + i + "]=" + array[i]);
             switch (mCurrentRecByteCount + mRecByteCountSecure) {
                 case 0:
                     if (array[i] == 0x4a) {      //J

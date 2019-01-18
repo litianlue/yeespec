@@ -248,12 +248,12 @@
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\radio_checked.png"
     },
     {
-        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\bg_rocker_blue.xml",
-        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\bg_rocker_blue.xml"
-    },
-    {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\_48_setting.png",
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\_48_setting.png"
+    },
+    {
+        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\bg_rocker_blue.xml",
+        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\bg_rocker_blue.xml"
     },
     {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\mf.png",
@@ -264,12 +264,12 @@
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\exploded-aar\\MicroscopeMaster\\vitamio\\unspecified\\res\\drawable\\scrubber_control_selector_holo.xml"
     },
     {
-        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\shape_top_corner_no_bottom_line.xml",
-        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\shape_top_corner_no_bottom_line.xml"
-    },
-    {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\_48_save.png",
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\_48_save.png"
+    },
+    {
+        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\shape_top_corner_no_bottom_line.xml",
+        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\shape_top_corner_no_bottom_line.xml"
     },
     {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\abc_btn_check_material.xml",
@@ -296,12 +296,12 @@
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\mediacontroller_seekbar_thumb.xml"
     },
     {
-        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\abc_cab_background_internal_bg.xml",
-        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.1\\res\\drawable\\abc_cab_background_internal_bg.xml"
-    },
-    {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\_48_partner.png",
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\drawable\\_48_partner.png"
+    },
+    {
+        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\abc_cab_background_internal_bg.xml",
+        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.1\\res\\drawable\\abc_cab_background_internal_bg.xml"
     },
     {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\drawable\\area_bg.png",

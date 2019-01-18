@@ -168,12 +168,12 @@
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\video_brightness_bg.png"
     },
     {
-        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\set_bluetoot.png",
-        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\set_bluetoot.png"
-    },
-    {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\dianchi1.png",
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\dianchi1.png"
+    },
+    {
+        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\set_bluetoot.png",
+        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\set_bluetoot.png"
     },
     {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\shouji.png",
@@ -328,12 +328,12 @@
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\xiangji.png"
     },
     {
-        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\jingtou.png",
-        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\jingtou.png"
-    },
-    {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\ic_cells_launcher.png",
         "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\ic_cells_launcher.png"
+    },
+    {
+        "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\jingtou.png",
+        "source": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\src\\main\\res\\mipmap-xhdpi\\jingtou.png"
     },
     {
         "merged": "D:\\project\\yeespec\\20181231\\MicroscopeMaster\\microscopemaster\\build\\intermediates\\res\\merged\\internal\\release\\mipmap-xhdpi\\bg_time.png",
