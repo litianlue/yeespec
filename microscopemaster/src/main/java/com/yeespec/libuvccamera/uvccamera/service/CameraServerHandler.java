@@ -93,6 +93,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import static com.yeespec.libuvccamera.uvccamera.service.UVCService.EXECUTOR_SERVICE_SCHEDULED;
+import static com.yeespec.libuvccamera.uvccamera.service.UVCService.isAutoFocus;
 import static com.yeespec.libuvccamera.uvccamera.service.UVCService.restartAppState;
 
 
@@ -465,8 +466,8 @@ public final class CameraServerHandler extends Handler {
     //2016.09.19 : 新增 : 用于唤醒手机屏幕 :
     public static final int MSG_SCREEN_WALKUP = 19;
     private boolean isconnect = false;
-    private int  USB_IS_REMMOVE_COUNT = 0;
-
+    public static int  USB_IS_REMMOVE_COUNT = 0;
+    public  static int UVCCAMERA_IS_CONNTECT =0;
     @Override
     public void handleMessage(final Message msg) {
 
@@ -548,23 +549,24 @@ public final class CameraServerHandler extends Handler {
                 // Log.e("CameraClient","isconnect="+isconnect);
 
                 break;
-
+            case PORST_MESSAGE_REFRESH:
+                if(IS_USART_CONNECT){
+                    USB_IS_REMMOVE_COUNT++;
+                    //定时检测串口掉线
+                    if(USB_IS_REMMOVE_COUNT>5){
+                        USB_IS_REMMOVE_COUNT  = 0;
+                        restartAppState=2;
+                        FileUtils.writeFileToLogFolder("检测到串口掉线(超时没有信号返回)");
+                        restartApp();
+                    }
+                }
+                break ;
             //2016.12.16 : 新增 : 用于刷新检测串口设备 :
             case MESSAGE_REFRESH:
                 if (!IS_USART_CONNECT) {
                     refreshDeviceList();
                    // UART_CONNECT_REFRESH --;
                     Log.w("devicelist", "IS_USART_CONNECT=" + IS_USART_CONNECT);
-                }
-
-                if(IS_USART_CONNECT){
-                    USB_IS_REMMOVE_COUNT++;
-                    //定时检测串口掉线
-                    if(USB_IS_REMMOVE_COUNT>5){
-                        restartAppState=2;
-                        FileUtils.writeFileToLogFolder("检测到串口掉线(超时没有信号返回)");
-                        restartApp();
-                    }
                 }
                 //2017.01.11 : 添加自动刷新控制板状态的操作 :
                 requestCallBackStatus();
@@ -829,6 +831,7 @@ public final class CameraServerHandler extends Handler {
                 mUsbManager = (UsbManager) mContext.getSystemService(Context.USB_SERVICE);
             }
             sendEmptyMessage(MESSAGE_REFRESH);
+
             rhandleOpenUVCCamera();
         }
         if (closed)
@@ -1363,8 +1366,8 @@ public final class CameraServerHandler extends Handler {
             synchronized (mSync) {
 
                 mHandler = new CameraServerHandler(this);
-                mHandler.sendEmptyMessage(MESSAGE_REFRESH);
-
+//                mHandler.sendEmptyMessage(MESSAGE_REFRESH);
+//                USB_IS_REMMOVE_COUNT  =0;
                 mSync.notifyAll();
             }
              /*写在Looper.loop()之后的代码不会被执行，这个函数内部应该是一个循环，
@@ -1386,8 +1389,8 @@ public final class CameraServerHandler extends Handler {
 
     public static final int MESSAGE_IS_CONNECT = 102;//
     public static final int MESSAGE_REFRESH = 101;
+    public static final int PORST_MESSAGE_REFRESH = 103;
     public static final long REFRESH_TIMEOUT_MILLIS = 1000*60;
-
     private List<UsbSerialPort> mEntries = new ArrayList<UsbSerialPort>();
     private static UsbManager mUsbManager;
 
@@ -1912,6 +1915,7 @@ public final class CameraServerHandler extends Handler {
                     //sPort.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
                     mPort.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE, UsbSerialPort.FLOWCONTROL_NONE);
                     IS_USART_CONNECT = true;
+                    sendEmptyMessageDelayed(PORST_MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
                 } catch (IOException e) {
                     FileUtils.writeFileToLogFolder("===============打开USB串口IO异常 e=" + e + "=======================");
                     e.printStackTrace();
@@ -1940,7 +1944,7 @@ public final class CameraServerHandler extends Handler {
 
     public void requestCallBackStatus() {
 
-        if (objectiveIsSwith || UVCService.isAutoFocus())
+        if (objectiveIsSwith || isAutoFocus())
             return;
         String commandString = "4A504C59" + "10" + "00000000000000" + "0D0A";
         sendControlCommand(commandString);  //查询一次 ;
@@ -2115,6 +2119,7 @@ public final class CameraServerHandler extends Handler {
         if (DEBUG)
             Log.v(TAG, "handleDisconnectUSART:");
         removeMessages(MESSAGE_REFRESH);
+        removeMessages(PORST_MESSAGE_REFRESH);
         //20180425 注释
         //IS_USART_CONNECT = false;
     }

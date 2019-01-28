@@ -134,6 +134,8 @@ import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.Lig
 import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.LightType;
 import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.MESSAGE_REFRESH;
 import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.REMOTE_LOGIN;
+import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.USB_IS_REMMOVE_COUNT;
+import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.UVCCAMERA_IS_CONNTECT;
 import static com.yeespec.libuvccamera.uvccamera.service.CameraServerHandler.mobjects;
 import static com.yeespec.microscope.master.service.MasterIntentService.EXECUTOR_SERVICE_SCHEDULED;
 
@@ -185,30 +187,27 @@ public class UVCService extends Service {
 
     //2016.09.21 新增 : 通知条的ID :
     public static final int NOTIFICATION_ID = 0x124;   //通知条的ID号 ;
-
     //====================================================================
-
     // 屏幕同步WEB_SOCKET
-    public static final CustomWebSocketServer WEB_SOCKET_PICTURE_SERVER;
+    public static  CustomWebSocketServer WEB_SOCKET_PICTURE_SERVER;
     public static NettySocketServer TCP_SERVER;
     // 手机通过服务中转对相机操作WEB_SOCKET
-    public static final CustomWebSocketServer WEB_SOCKET_OPTIONS_SERVER;
+    public static  CustomWebSocketServer WEB_SOCKET_OPTIONS_SERVER;
     // 设备状态获取设备状态获取WEB_SOCKET
-    public static final CustomWebSocketServer WEB_SOCKET_STATUS_SERVER;
+    public static  CustomWebSocketServer WEB_SOCKET_STATUS_SERVER;
     // 服务对相机操作WEB_SOCKET
-    public static final CustomWebSocketServer WEB_SOCKET_OPERATION_SERVER;
+    public static  CustomWebSocketServer WEB_SOCKET_OPERATION_SERVER;
     // 手机对相机的操作状态进行监听，监听是否进行屏蔽WEB_SOCKET
-    public static final CustomWebSocketServer WEB_SOCKET_OPERATION_CONTROL_SERVER;
+    public static  CustomWebSocketServer WEB_SOCKET_OPERATION_CONTROL_SERVER;
     // 获取客户端数量WEB_SOCKET
-    public static final CustomWebSocketServer WEB_SOCKET_CLIENT_NUMBER_SERVER;
+    public static  CustomWebSocketServer WEB_SOCKET_CLIENT_NUMBER_SERVER;
 
-    public static final HttpServer HTTP_SERVER;
+    public static  HttpServer HTTP_SERVER;
 
     private static USBMonitor mUSBMonitor;
-
+    public  boolean isOpenUVC = true;
     public int level;
-    static {
-
+    static{
         WEB_SOCKET_PICTURE_SERVER = CustomWebSocketServer.getInstance(CustomWebSocketServer.PORT1);
         WEB_SOCKET_OPTIONS_SERVER = CustomWebSocketServer.getInstance(CustomWebSocketServer.PORT2);
         WEB_SOCKET_STATUS_SERVER = CustomWebSocketServer.getInstance(CustomWebSocketServer.PORT3);
@@ -461,6 +460,7 @@ public class UVCService extends Service {
             if (mServiceHandler == null) {
                 mServiceHandler = CameraServerHandler.createServerHandler(getApplicationContext(), ctrlBlock, 0, 0, mISynchronousScreenFrameCallback);
                 mServiceHandler.sendEmptyMessage(MESSAGE_REFRESH);
+
             }
         }
 
@@ -474,6 +474,13 @@ public class UVCService extends Service {
                 FileUtils.writeFileToLogFolder("CameraClient：exception_count=true");
             }
         },3000,TimeUnit.MILLISECONDS);
+//        RESTART_SERVICE_SCHEDULED.schedule(new Runnable() {
+//            @Override
+//            public void run() {
+//                initWeb();
+//                initChannel();
+//            }
+//        },1000*15,TimeUnit.MILLISECONDS);
 //        EXECUTOR_SERVICE_SCHEDULED.schedule(new Runnable() {
 //            @Override
 //            public void run() {
@@ -752,7 +759,6 @@ public class UVCService extends Service {
      */
     protected void getBatteryPercentage() {
         mBatteryLevelReceiver = new BroadcastReceiver() {
-
             public void onReceive(Context context, Intent intent) {
                 int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
                 int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
@@ -909,7 +915,7 @@ public class UVCService extends Service {
     private int di_count = 0;
     private boolean lastRun = false;
     private boolean DIRECTION = true;
-    private static boolean isAutoFocus = false;
+    public static boolean isAutoFocus = false;
     private boolean isStartFreshnes = true;
     private boolean isATsuccessful = false;
     private int COUNT_TO_RESULT = 0;
@@ -1299,6 +1305,9 @@ public class UVCService extends Service {
             //selfRestartPreview();
             // TODO C++处理完毕，得到新图片
            // Log.w(TAG,"IFrameCallback");
+            if(UVCCAMERA_IS_CONNTECT>1)
+            UVCCAMERA_IS_CONNTECT --;
+
             synchronized (BITMAP) {
               //
 //                if(autophotoview.equals("visible")){
@@ -1416,9 +1425,9 @@ public class UVCService extends Service {
     }
     private void startFreshnnes() {
         if (isAutoFocus) {
-
             if (isStartFreshnes) {
                 FileUtils.writeFileToLogFolder("开始自动对焦：startFreshnnes");
+                USB_IS_REMMOVE_COUNT  = 0 ;
                 float freShnes;
                 isStartFreshnes = false;
 
@@ -1759,6 +1768,7 @@ public class UVCService extends Service {
 
 
         }else {
+
             CameraOptionsChannel optionsChannel = (CameraOptionsChannel) WEB_SOCKET_OPTIONS_SERVER.CHANNELS.get(CameraOptionsChannel.CHANNEL_NAME);
             if (optionsChannel.getConnectionsCount() > 0) {
                 JSONObject object = new JSONObject();
@@ -1904,6 +1914,7 @@ public class UVCService extends Service {
 
                 }
                 mServiceHandler.sendEmptyMessage(MESSAGE_REFRESH);
+
 
                 SPUtils.put(UVCService.this, "current_device_key", key);
 
@@ -2695,6 +2706,7 @@ public class UVCService extends Service {
 
         @Override
         public void closeUVC() throws RemoteException {
+            isOpenUVC  = false;
             FileUtils.writeFileToLogFolder("关闭摄像头: closeUVC");
             CameraServerHandler serverHandler = getCameraServerHandler(currentServiceId);
             if (serverHandler == null) {
@@ -2705,6 +2717,8 @@ public class UVCService extends Service {
 
         @Override
         public void openUVC() throws RemoteException {
+            isOpenUVC  = true;
+            UVCCAMERA_IS_CONNTECT  = 10;
             FileUtils.writeFileToLogFolder("打开摄像头: openUVC");
             CameraServerHandler serverHandler = getCameraServerHandler(currentServiceId);
             if (serverHandler == null) {
@@ -3045,7 +3059,13 @@ public class UVCService extends Service {
         @Override
         public void capture(String path,String pathrequest,String pathscale) throws RemoteException {
             synchronized (BITMAP) {
-
+                if(isOpenUVC){
+                    if(UVCCAMERA_IS_CONNTECT==10){
+                        FileUtils.writeFileToLogFolder("图像异常，重启");
+                        RestartUtil  restartUtil = new RestartUtil();
+                        restartUtil.killProcess();
+                    }
+                }
                 if (BITMAP == null || BITMAP.isRecycled()) {
                     BITMAP = Bitmap.createBitmap(UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, Bitmap.Config.ARGB_8888);
                 }
