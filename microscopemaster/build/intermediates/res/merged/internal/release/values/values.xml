@@ -657,7 +657,7 @@
     <string name="avoscloud_search_result_title">Search Result</string>
     <string name="baudRate">波特率</string>
     <string name="build_host" translatable="false">Administrator@CZ-20170809CODS</string>
-    <string name="build_time" translatable="false">20190128</string>
+    <string name="build_time" translatable="false">20190129</string>
     <string name="camera">Camera</string>
     <string name="clear">清除记录</string>
     <string name="common_google_play_services_api_unavailable_text"><ns1:g id="app_name">%1$s</ns1:g> requires one or more Google Play services that are not currently available. Please contact the developer for assistance.</string>
